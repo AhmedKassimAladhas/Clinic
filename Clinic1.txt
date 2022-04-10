@@ -1,0 +1,120 @@
+CREATE TABLE Patients(
+	Number int primary key,
+	Phone Varchar(15),
+	Name Varchar(150),
+	Sex Varchar(15)
+);
+CREATE TABLE AccountD(
+	Number int primary key,
+	date_acc DATE,
+	Doc_Accounts double,
+	dnumber int ,
+	foreign key(dnumber) references Doctors(number)
+);
+CREATE TABLE AccountE(
+	Number int primary key,
+	date_acc DATE,
+	Emp_Accounts double,
+	enumber int ,
+	foreign key(enumber) references employees(number)
+);	
+
+
+CREATE TABLE AccounttotalD(
+	date_acc DATE,
+	dname Varchar(200),
+	dnumber int ,
+	Doc_total double
+);
+CREATE TABLE AccounttotalE(
+	date_acc DATE,
+	Ename Varchar(200),
+	Enumber int ,
+	EMP_total double
+);
+
+
+CREATE TABLE Doctors(
+	Number int primary key,
+	Name Varchar(150) ,
+	Times Date,
+	Specialization Varchar(100),
+	ANumber int,
+	foreign key(ANumber) references Accounts(Number)
+);
+CREATE TABLE Employees(
+	Number int primary key,
+	Name Varchar(150),
+	ANumber int,
+	foreign key(ANumber) references Accounts(Number)
+);
+CREATE TABLE Reservations(
+	Number int primary key,
+	Date_Reservat Date,
+	Cost double,
+	Normal_check Varchar(100),
+	Medic_consultation Varchar(100),
+	Express_Check Varchar(100),
+	Birth_Patient Date,
+	PNumber int,
+	ENumber int,
+	foreign key(PNumber) references Patients(Number),
+	foreign key(ENumber) references Employees(Number)
+);
+CREATE TABLE Check_Up(
+	Number int primary key,
+	Date_Check Date,
+	Type_of_disease Varchar(200),
+	Height Varchar(50),
+	Weight Varchar(50),
+	Sugar Varchar(100),
+	Pressure Varchar(100),
+	Temperature Varchar(100),
+	Notes Varchar(200),
+	Improvement Varchar(100),
+	Medic_radiations Varchar(100),
+	Medication Varchar(100),
+	DNumber int,
+	PNumber int,
+	foreign key(DNumber) references Doctors(Number),
+	foreign key(PNumber) references Patients(Number)
+);
+CREATE TABLE DOC_TIMES(
+	dNum int,
+	foreign key(DNum) references Doctors(Number),
+	Days Varchar(50),
+	t_from TIME UNIQUE,
+	t_to TIME UNIQUE,
+	shift int UNIQUE,
+	primary key(dNum,Days)
+);
+
+CREATE TABLE RECHECK_UP(
+	CNUM INT ,
+	DATE_RECHECK DATE,
+	Type_of_disease Varchar(200),
+	Sugar Varchar(100),
+	Pressure Varchar(100),
+	Temperature Varchar(100),
+	Notes Varchar(200),
+	Improvement Varchar(100),
+	Medic_radiations Varchar(100),
+	Medication Varchar(100),
+	DocNumber int,
+	PesNumber int,
+	foreign key(CNUM) references Check_Up(Number),
+	foreign key(DocNumber) references Doctors(Number),
+	foreign key(PesNumber) references Patients(Number),
+	primary key(CNUM)	
+);
+
+CREATE TABLE Expenses(
+	ANum int,
+	Expenses Varchar (200),
+	Name_exp Varchar (100),
+	NAME_registrar Varchar (100),
+	Date_of_exp DATE,
+	foreign key(Date_of_exp) references Accounts(Date_of_accounts),
+	Cost_exp double,
+	primary key(ANum,Date_of_exp,Expenses)
+);
